@@ -21,8 +21,8 @@
 @property (nonatomic, assign) NSInteger selectedMonth;
 /**记录选中日*/
 @property (nonatomic, assign) NSInteger selectedDay;
-/**可以选择的日期数组*/
-@property (nonatomic, strong) NSArray *canSelectedArray;
+/**不可以选择的日期数组*/
+@property (nonatomic, strong) NSArray *noSelectedArray;
 
 @end
 
@@ -43,8 +43,8 @@
     _month = [components month];
 }
 - (void)getDataSource{
-    self.canSelectedArray = [NSArray array];
-    self.canSelectedArray = @[@"3",@"4",@"8",@"12"];
+    self.noSelectedArray = [NSArray array];
+    self.noSelectedArray = @[@"3",@"4",@"8",@"12"];
 }
 - (void)initUI{
     //每一个日期用一个按钮去创建，当一个月的第一天是星期六并且有31天时为最多个数，5行零2个，共37个
@@ -71,7 +71,6 @@
     self.selectedYear = self.year;
     self.selectedMonth = self.month;
     self.selectedDay = [button.titleLabel.text integerValue];
-    if (button.selected) return;
     [self reloadData];
 }
 - (void)leftMonth{
@@ -113,7 +112,7 @@
                 btn.selected = YES;
                 btn.backgroundColor = [UIColor colorWithRed:173/255.0f green:212/255.0f blue:208/255.0f alpha:1.0f];
             }
-            if ([self.canSelectedArray containsObject:btn.titleLabel.text]) {
+            if ([self.noSelectedArray containsObject:btn.titleLabel.text]) {
                 btn.enabled = NO;
                 btn.backgroundColor = [UIColor lightGrayColor];
             }
