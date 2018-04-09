@@ -48,9 +48,12 @@
     for (int i = 0; i < 37; i++) {
         UIButton *dayButton = [[UIButton alloc] init];
         dayButton.tag = i + 10097;
-        
+        dayButton.layer.cornerRadius = CLscreenWidth / 7.0 * 0.5;
+        dayButton.layer.masksToBounds = YES;
         [dayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [dayButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        [dayButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+
+        [dayButton addTarget:self action:@selector(dayAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:dayButton];
         CGFloat btnX = i % 7 * CLscreenWidth / 7.0;
         CGFloat btnY = i / 7 * CLscreenWidth / 7.0;
@@ -61,7 +64,19 @@
         }];
     }
 }
-
+- (void)dayAction:(UIButton *)button{
+    if (button.selected) return;
+    for (int i = 0; i < 37; i++) {
+        UIButton *btn = [self viewWithTag:i + 10097];
+        if (btn == button) {
+            btn.selected = YES;
+            btn.backgroundColor = [UIColor colorWithRed:173/255.0f green:212/255.0f blue:208/255.0f alpha:1.0f];
+        }else{
+            btn.selected = NO;
+            btn.backgroundColor = [UIColor clearColor];
+        }
+    }
+}
 - (void)leftMonth{
     if (self.month == 1) {
         self.year --;
@@ -90,22 +105,20 @@
     if (self.data) {
         self.data([NSString stringWithFormat:@"%ld年%ld月", _year,_month]);
     }
-    
     for (int i = 0; i < 37; i++) {
         UIButton *btn = (UIButton *)[self viewWithTag:i + 10097];
         btn.selected = NO;
+        btn.backgroundColor = [UIColor clearColor];
         if (i < firstDay - 1 || i > totalDays + firstDay - 2) {
             btn.enabled = NO;
             [btn setTitle:@"" forState:UIControlStateNormal];
         }else {
             if (_year == _currentYear && _month == _currentMonth) {
                 if (btn.tag - 10097 - (firstDay - 2) == _currentDay) {
-                    btn.selected = YES;
                     _day = _currentDay;
                 }
             }else {
                 if (i == firstDay - 1) {
-                    btn.selected = YES;
                     _day = btn.tag - 10097 - (firstDay - 2);
                 }
             }
