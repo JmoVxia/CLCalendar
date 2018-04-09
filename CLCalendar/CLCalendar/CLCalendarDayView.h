@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^DataChangeBlock)(NSString *dataString);
+
 @interface CLCalendarDayView : UIView
+
+- (void)leftMonth;
+- (void)rightMonth;
+
+- (void)dataChange:(DataChangeBlock)data;
 
 @end

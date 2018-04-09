@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^LeftBlock)(void);
+typedef void(^RightBlock)(void);
+
 @interface CLCalendarToolBar : UIView
+
+/**年月*/
+@property (nonatomic, copy) NSString *yearMonthString;
+
+
+- (void)leftBlcokAction:(LeftBlock)left;
+- (void)rightBlcokAction:(LeftBlock)right;
 
 @end

@@ -7,6 +7,23 @@
 //
 
 #import "CLCalendarToolBar.h"
+#import "UIView+CLSetRect.h"
+#import "Masonry.h"
+
+@interface CLCalendarToolBar ()
+
+/**上一月*/
+@property (nonatomic, weak) UIButton *leftButton;
+/**年月*/
+@property (nonatomic, weak) UILabel *yearMonthLabel;
+/**下一月*/
+@property (nonatomic, weak) UIButton *rightButton;
+/**上月Block*/
+@property (nonatomic, copy) LeftBlock left;
+/**下月Block*/
+@property (nonatomic, copy) RightBlock right;
+
+@end
 
 @implementation CLCalendarToolBar
 
@@ -18,6 +35,73 @@
 }
 - (void)initUI{
     
+    UIButton *leftButton = [[UIButton alloc] init];
+    [leftButton setImage:[UIImage imageNamed:@"leftArrow"] forState:UIControlStateNormal];
+    [leftButton setImage:[UIImage imageNamed:@"leftArrow"] forState:UIControlStateSelected];
+    [leftButton addTarget:self action:@selector(leftAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:leftButton];
+    self.leftButton = leftButton;
+    
+    UILabel *yearMonthLabel = [[UILabel alloc] init];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
+    yearMonthLabel.text = [NSString stringWithFormat:@"%ld年%ld月",[components year],[components month]];
+    [self addSubview:yearMonthLabel];
+    self.yearMonthLabel = yearMonthLabel;
+    
+    UIButton *rightButton = [[UIButton alloc] init];
+    [rightButton setImage:[UIImage imageNamed:@"rightArrow"] forState:UIControlStateNormal];
+    [rightButton setImage:[UIImage imageNamed:@"rightArrow"] forState:UIControlStateSelected];
+    [rightButton addTarget:self action:@selector(rightAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:rightButton];
+    self.rightButton = rightButton;
+    
+
+    
+    [self makeConstraints];
 }
+
+- (void)makeConstraints{
+    [self.leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(15);
+        make.top.bottom.mas_equalTo(self);
+        make.width.mas_equalTo(self.leftButton.mas_height);
+    }];
+    
+    [self.yearMonthLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self);
+        make.top.bottom.mas_equalTo(self);
+    }];
+    
+    [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(-15);
+        make.top.bottom.mas_equalTo(self);
+        make.width.mas_equalTo(self.rightButton.mas_height);
+    }];
+}
+- (void)leftAction:(UIButton *)left{
+    if (self.left) {
+        self.left();
+    }
+}
+- (void)rightAction:(UIButton *)right{
+    if (self.right) {
+        self.right();
+    }
+}
+- (void)leftBlcokAction:(LeftBlock)left{
+    self.left = left;
+}
+- (void)rightBlcokAction:(RightBlock)right{
+    self.right = right;
+}
+
+-(void)setYearMonthString:(NSString *)yearMonthString{
+    _yearMonthString = yearMonthString;
+    self.yearMonthLabel.text = _yearMonthString;
+}
+
+
+
+
 
 @end

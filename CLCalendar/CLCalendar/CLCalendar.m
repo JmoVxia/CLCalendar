@@ -49,12 +49,20 @@
     [self addSubview:dayView];
     self.dayView = dayView;
     
+    [self.toolBar leftBlcokAction:^{
+        [self.dayView leftMonth];
+    }];
     
-    self.toolBar.backgroundColor = RandomColor;
-    self.weekView.backgroundColor = RandomColor;
-    self.dayView.backgroundColor = RandomColor;
+    [self.toolBar rightBlcokAction:^{
+        [self.dayView rightMonth];
+    }];
+    
+    [self.dayView dataChange:^(NSString *dataString) {
+        self.toolBar.yearMonthString = dataString;
+    }];
 
 }
+
 - (void)makeConstraints{
     
     [self.toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
