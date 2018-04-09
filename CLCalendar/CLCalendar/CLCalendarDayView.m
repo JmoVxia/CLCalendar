@@ -12,13 +12,15 @@
 
 @interface CLCalendarDayView ()
 
-@property (nonatomic, assign) NSInteger currentYear;
-@property (nonatomic, assign) NSInteger currentMonth;
-@property (nonatomic, assign) NSInteger currentDay;
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
-@property (nonatomic, assign) NSInteger day;
 @property (nonatomic, copy) DataChangeBlock data;
+/**记录选中年*/
+@property (nonatomic, assign) NSInteger selectedYear;
+/**记录选中月*/
+@property (nonatomic, assign) NSInteger selectedMonth;
+/**记录选中日*/
+@property (nonatomic, assign) NSInteger selectedDay;
 
 @end
 
@@ -26,22 +28,16 @@
 
 -(instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
-        
         [self getCurrentTime];
-        
         [self initUI];
-
         [self reloadData];
-
     }
     return self;
 }
 - (void)getCurrentTime{
- 
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
     _year = [components year];
     _month = [components month];
-    _day = [components day];
 }
 - (void)initUI{
     //每一个日期用一个按钮去创建，当一个月的第一天是星期六并且有31天时为最多个数，5行零2个，共37个
@@ -65,6 +61,9 @@
     }
 }
 - (void)dayAction:(UIButton *)button{
+    self.selectedYear = self.year;
+    self.selectedMonth = self.month;
+    self.selectedDay = [button.titleLabel.text integerValue];
     if (button.selected) return;
     for (int i = 0; i < 37; i++) {
         UIButton *btn = [self viewWithTag:i + 10097];
@@ -95,13 +94,10 @@
     }
     [self reloadData];
 }
-
 //刷新数据
-- (void)reloadData
-{
+- (void)reloadData{
     NSInteger totalDays = [self numberOfDaysInMonth];
     NSInteger firstDay = [self firstDayOfWeekInMonth];
-    
     if (self.data) {
         self.data([NSString stringWithFormat:@"%ld年%ld月", _year,_month]);
     }
@@ -113,46 +109,34 @@
             btn.enabled = NO;
             [btn setTitle:@"" forState:UIControlStateNormal];
         }else {
-            if (_year == _currentYear && _month == _currentMonth) {
-                if (btn.tag - 10097 - (firstDay - 2) == _currentDay) {
-                    _day = _currentDay;
-                }
-            }else {
-                if (i == firstDay - 1) {
-                    _day = btn.tag - 10097 - (firstDay - 2);
-                }
-            }
             btn.enabled = YES;
             [btn setTitle:[NSString stringWithFormat:@"%ld", i - (firstDay - 1) + 1] forState:UIControlStateNormal];
+            if (_year == _selectedYear && _month == _selectedMonth && ([btn.titleLabel.text integerValue]) == _selectedDay) {
+                btn.selected = YES;
+                btn.backgroundColor = [UIColor colorWithRed:173/255.0f green:212/255.0f blue:208/255.0f alpha:1.0f];
+            }
         }
     }
 }
-
 - (void)dataChange:(DataChangeBlock)data{
     self.data = data;
 }
-
 //获取目标月份的天数
-- (NSInteger)numberOfDaysInMonth
-{
+- (NSInteger)numberOfDaysInMonth{
     //获取选中日期月份的天数
     return [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:[self getSelectDate]].length;
 }
-
 //获取目标月份第一天星期几
-- (NSInteger)firstDayOfWeekInMonth
-{
+- (NSInteger)firstDayOfWeekInMonth{
     //获取选中日期月份第一天星期几，因为默认日历顺序为“日一二三四五六”，所以这里返回的1对应星期日，2对应星期一，依次类推
     return [[NSCalendar currentCalendar] ordinalityOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitWeekOfYear forDate:[self getSelectDate]];
 }
 //根据选中日期，获取相应NSDate
-- (NSDate *)getSelectDate
-{
+- (NSDate *)getSelectDate{
     //初始化NSDateComponents，设置为选中日期
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
     dateComponents.year = _year;
     dateComponents.month = _month;
-    
     return [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dateComponents];
 }
 

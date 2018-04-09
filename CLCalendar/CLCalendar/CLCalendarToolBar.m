@@ -55,8 +55,6 @@
     [self addSubview:rightButton];
     self.rightButton = rightButton;
     
-
-    
     [self makeConstraints];
 }
 
