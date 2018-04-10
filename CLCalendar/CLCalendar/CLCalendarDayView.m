@@ -11,9 +11,15 @@
 #import "UIView+CLSetRect.h"
 
 @interface CLCalendarDayView ()
-
+//记录当天年月日
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
+@property (nonatomic, assign) NSInteger day;
+//显示的年月日
+@property (nonatomic, assign) NSInteger showYear;
+@property (nonatomic, assign) NSInteger showMonth;
+@property (nonatomic, assign) NSInteger showDay;
+//选中的时间回调
 @property (nonatomic, copy) DataChangeBlock data;
 /**记录选中年*/
 @property (nonatomic, assign) NSInteger selectedYear;
@@ -32,17 +38,22 @@
     if (self = [super initWithFrame:frame]) {
         [self initUI];
         [self getCurrentTime];
-        [self getDataSource];
         [self reloadData];
     }
     return self;
 }
 - (void)getCurrentTime{
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
+    _showYear = [components year];
+    _showMonth = [components month];
+    _showDay = [components day];
     _year = [components year];
     _month = [components month];
+    _day = [components day];
+    [self getDataSource];
 }
 - (void)getDataSource{
+    NSLog(@"%@",[NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     self.noSelectedArray = [NSArray array];
     self.noSelectedArray = @[@"3",@"4",@"8",@"12"];
 }
@@ -53,9 +64,6 @@
         dayButton.tag = i + 10097;
         dayButton.layer.cornerRadius = CLscreenWidth / 7.0 * 0.5;
         dayButton.layer.masksToBounds = YES;
-        [dayButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [dayButton setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-
         [dayButton addTarget:self action:@selector(dayAction:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:dayButton];
         CGFloat btnX = i % 7 * CLscreenWidth / 7.0;
@@ -68,27 +76,29 @@
     }
 }
 - (void)dayAction:(UIButton *)button{
-    self.selectedYear = self.year;
-    self.selectedMonth = self.month;
+    self.selectedYear = self.showYear;
+    self.selectedMonth = self.showMonth;
     self.selectedDay = [button.titleLabel.text integerValue];
     [self reloadData];
 }
 - (void)leftMonth{
-    if (self.month == 1) {
-        self.year --;
-        self.month = 12;
+    if (self.showMonth == 1) {
+        self.showYear --;
+        self.showMonth = 12;
     }else {
-        self.month --;
+        self.showMonth --;
     }
+    NSLog(@"%@",[NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     [self reloadData];
 }
 - (void)rightMonth{
-    if (self.month == 12) {
-        self.year ++;
-        self.month = 1;
+    if (self.showMonth == 12) {
+        self.showYear ++;
+        self.showMonth = 1;
     }else {
-        self.month ++;
+        self.showMonth ++;
     }
+    NSLog(@"%@",[NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     [self reloadData];
 }
 //刷新数据
@@ -96,7 +106,7 @@
     NSInteger totalDays = [self numberOfDaysInMonth];
     NSInteger firstDay = [self firstDayOfWeekInMonth];
     if (self.data) {
-        self.data([NSString stringWithFormat:@"%ld年%ld月", _year,_month]);
+        self.data([NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     }
     for (int i = 0; i < 37; i++) {
         UIButton *btn = (UIButton *)[self viewWithTag:i + 10097];
@@ -108,10 +118,19 @@
         }else {
             btn.enabled = YES;
             [btn setTitle:[NSString stringWithFormat:@"%ld", i - (firstDay - 1) + 1] forState:UIControlStateNormal];
-            if (_year == _selectedYear && _month == _selectedMonth && ([btn.titleLabel.text integerValue]) == _selectedDay) {
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
+            //找出当天
+            if (_showYear == _year && _showMonth == _month && ([btn.titleLabel.text integerValue]) == _day) {
+                [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+                [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+            }
+            //找出选中日期
+            if (_showYear == _selectedYear && _showMonth == _selectedMonth && ([btn.titleLabel.text integerValue]) == _selectedDay) {
                 btn.selected = YES;
                 btn.backgroundColor = [UIColor colorWithRed:173/255.0f green:212/255.0f blue:208/255.0f alpha:1.0f];
             }
+            //找出不能够选择的日期
             if ([self.noSelectedArray containsObject:btn.titleLabel.text]) {
                 btn.enabled = NO;
                 btn.backgroundColor = [UIColor lightGrayColor];
@@ -136,8 +155,8 @@
 - (NSDate *)getSelectDate{
     //初始化NSDateComponents，设置为选中日期
     NSDateComponents *dateComponents = [[NSDateComponents alloc] init];
-    dateComponents.year = _year;
-    dateComponents.month = _month;
+    dateComponents.year = _showYear;
+    dateComponents.month = _showMonth;
     return [[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian] dateFromComponents:dateComponents];
 }
 

@@ -32,6 +32,7 @@
         [self initUI];
         //约束
         [self makeConstraints];
+//        self.backgroundColor = RandomColor;
     }
     return self;
 }
