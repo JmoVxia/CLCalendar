@@ -87,6 +87,21 @@
 				5B18D630207B090300DBC12F /* AppDelegate.m */,
 				5B18D632207B090300DBC12F /* ViewController.h */,
 				5B18D633207B090300DBC12F /* ViewController.m */,
+				5B18D679207C89A900DBC12F /* CLCalendar */,
+				5B18D670207B130400DBC12F /* UIView+CLSetRect.h */,
+				5B18D671207B130400DBC12F /* UIView+CLSetRect.m */,
+				5B18D635207B090300DBC12F /* Main.storyboard */,
+				5B18D638207B090300DBC12F /* Assets.xcassets */,
+				5B18D63A207B090300DBC12F /* LaunchScreen.storyboard */,
+				5B18D63D207B090300DBC12F /* Info.plist */,
+				5B18D63E207B090300DBC12F /* main.m */,
+			);
+			path = CLCalendar;
+			sourceTree = "<group>";
+		};
+		5B18D679207C89A900DBC12F /* CLCalendar */ = {
+			isa = PBXGroup;
+			children = (
 				5B18D667207B0CC900DBC12F /* CLCalendar.h */,
 				5B18D668207B0CC900DBC12F /* CLCalendar.m */,
 				5B18D664207B0B4800DBC12F /* CLCalendarToolBar.h */,
@@ -97,13 +112,6 @@
 				5B18D66B207B0DD600DBC12F /* CLCalendarDayView.m */,
 				5B18D676207C7E0F00DBC12F /* CLCalendarDayButton.h */,
 				5B18D677207C7E0F00DBC12F /* CLCalendarDayButton.m */,
-				5B18D670207B130400DBC12F /* UIView+CLSetRect.h */,
-				5B18D671207B130400DBC12F /* UIView+CLSetRect.m */,
-				5B18D635207B090300DBC12F /* Main.storyboard */,
-				5B18D638207B090300DBC12F /* Assets.xcassets */,
-				5B18D63A207B090300DBC12F /* LaunchScreen.storyboard */,
-				5B18D63D207B090300DBC12F /* Info.plist */,
-				5B18D63E207B090300DBC12F /* main.m */,
 			);
 			path = CLCalendar;
 			sourceTree = "<group>";

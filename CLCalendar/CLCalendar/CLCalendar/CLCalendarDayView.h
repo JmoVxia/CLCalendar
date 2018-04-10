@@ -11,10 +11,11 @@
 typedef void(^DataChangeBlock)(NSString *dataString);
 
 @interface CLCalendarDayView : UIView
-
-- (void)leftMonth;
-- (void)rightMonth;
-
+//刷新上月
+- (void)reloadLeftMonth;
+//刷新下月
+- (void)reloadRightMonth;
+//数据变化
 - (void)dataChange:(DataChangeBlock)data;
 
 @end

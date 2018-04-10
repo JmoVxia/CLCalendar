@@ -32,10 +32,10 @@
         [self initUI];
         //约束
         [self makeConstraints];
-//        self.backgroundColor = RandomColor;
     }
     return self;
 }
+#pragma mark - 创建控件
 - (void)initUI{
     //工具条
     CLCalendarToolBar *toolBar = [[CLCalendarToolBar alloc] init];
@@ -49,34 +49,30 @@
     CLCalendarDayView *dayView = [[CLCalendarDayView alloc] init];
     [self addSubview:dayView];
     self.dayView = dayView;
-    
+    //上一月点击回调
     [self.toolBar leftBlcokAction:^{
-        [self.dayView leftMonth];
+        [self.dayView reloadLeftMonth];
     }];
-    
+    //下一月点击回调
     [self.toolBar rightBlcokAction:^{
-        [self.dayView rightMonth];
+        [self.dayView reloadRightMonth];
     }];
-    
+    //日期变化回调
     [self.dayView dataChange:^(NSString *dataString) {
         self.toolBar.yearMonthString = dataString;
     }];
-
 }
-
+#pragma mark - 约束
 - (void)makeConstraints{
-    
     [self.toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.top.right.mas_equalTo(self);
         make.height.mas_equalTo(50);
     }];
-    
     [self.weekView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self);
         make.top.mas_equalTo(self.toolBar.mas_bottom);
         make.height.mas_equalTo(CLscreenWidth / 7.0);
     }];
-    
     [self.dayView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(self);
         make.top.mas_equalTo(self.weekView.mas_bottom);

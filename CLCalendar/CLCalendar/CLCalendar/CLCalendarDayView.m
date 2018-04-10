@@ -12,6 +12,7 @@
 #import "UIView+CLSetRect.h"
 
 @interface CLCalendarDayView ()
+
 //记录当天年月日
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
@@ -43,6 +44,7 @@
     }
     return self;
 }
+#pragma mark - 初始时间
 - (void)getCurrentTime{
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute fromDate:[NSDate date]];
     _showYear = [components year];
@@ -53,6 +55,7 @@
     _day = [components day];
     [self getDataSource];
 }
+#pragma mark - 获取不可点击天数数据
 - (void)getDataSource{
     NSLog(@"%@",[NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     self.noSelectedArray = [NSArray array];
@@ -74,13 +77,14 @@
         }];
     }
 }
+#pragma mark - 日期点击响应
 - (void)dayAction:(CLCalendarDayButton *)button{
     self.selectedYear = self.showYear;
     self.selectedMonth = self.showMonth;
     self.selectedDay = [button.titleLabel.text integerValue];
     [self reloadData];
 }
-- (void)leftMonth{
+- (void)reloadLeftMonth{
     if (self.showMonth == 1) {
         self.showYear --;
         self.showMonth = 12;
@@ -90,7 +94,7 @@
     NSLog(@"%@",[NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     [self reloadData];
 }
-- (void)rightMonth{
+- (void)reloadRightMonth{
     if (self.showMonth == 12) {
         self.showYear ++;
         self.showMonth = 1;
@@ -104,9 +108,11 @@
 - (void)reloadData{
     NSInteger totalDays = [self numberOfDaysInMonth];
     NSInteger firstDay = [self firstDayOfWeekInMonth];
+    //日期数据变化回调
     if (self.data) {
         self.data([NSString stringWithFormat:@"%ld年%ld月", _showYear,_showMonth]);
     }
+    //根据数据变化，筛选那些按钮可以点击，那些需要颜色
     for (int i = 0; i < 37; i++) {
         CLCalendarDayButton *btn = (CLCalendarDayButton *)[self viewWithTag:i + 10097];
         btn.selected = NO;

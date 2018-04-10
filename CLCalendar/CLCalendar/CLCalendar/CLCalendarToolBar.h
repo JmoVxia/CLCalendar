@@ -15,9 +15,9 @@ typedef void(^RightBlock)(void);
 
 /**年月*/
 @property (nonatomic, copy) NSString *yearMonthString;
-
-
+//上一月回调
 - (void)leftBlcokAction:(LeftBlock)left;
+//下一月回调
 - (void)rightBlcokAction:(LeftBlock)right;
 
 @end
