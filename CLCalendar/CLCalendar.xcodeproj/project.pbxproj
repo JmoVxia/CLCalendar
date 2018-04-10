@@ -18,6 +18,7 @@
 		5B18D66C207B0DD600DBC12F /* CLCalendarDayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18D66B207B0DD600DBC12F /* CLCalendarDayView.m */; };
 		5B18D66F207B0F6100DBC12F /* CLCalendarWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18D66E207B0F6100DBC12F /* CLCalendarWeekView.m */; };
 		5B18D672207B130500DBC12F /* UIView+CLSetRect.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18D671207B130400DBC12F /* UIView+CLSetRect.m */; };
+		5B18D678207C7E0F00DBC12F /* CLCalendarDayButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B18D677207C7E0F00DBC12F /* CLCalendarDayButton.m */; };
 		F36C024581DCFC31770857D0 /* libPods-CLCalendar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A8DA1CC4A6C4AD16AC6376FA /* libPods-CLCalendar.a */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,8 @@
 		5B18D66E207B0F6100DBC12F /* CLCalendarWeekView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLCalendarWeekView.m; sourceTree = "<group>"; };
 		5B18D670207B130400DBC12F /* UIView+CLSetRect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CLSetRect.h"; sourceTree = "<group>"; };
 		5B18D671207B130400DBC12F /* UIView+CLSetRect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CLSetRect.m"; sourceTree = "<group>"; };
+		5B18D676207C7E0F00DBC12F /* CLCalendarDayButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLCalendarDayButton.h; sourceTree = "<group>"; };
+		5B18D677207C7E0F00DBC12F /* CLCalendarDayButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLCalendarDayButton.m; sourceTree = "<group>"; };
 		74E55A5694C9E8E735F7F4FC /* Pods-CLCalendar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLCalendar.release.xcconfig"; path = "Pods/Target Support Files/Pods-CLCalendar/Pods-CLCalendar.release.xcconfig"; sourceTree = "<group>"; };
 		A754C0E97D7DC2FBFCEFE258 /* Pods-CLCalendar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CLCalendar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CLCalendar/Pods-CLCalendar.debug.xcconfig"; sourceTree = "<group>"; };
 		A8DA1CC4A6C4AD16AC6376FA /* libPods-CLCalendar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CLCalendar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +95,8 @@
 				5B18D66E207B0F6100DBC12F /* CLCalendarWeekView.m */,
 				5B18D66A207B0DD600DBC12F /* CLCalendarDayView.h */,
 				5B18D66B207B0DD600DBC12F /* CLCalendarDayView.m */,
+				5B18D676207C7E0F00DBC12F /* CLCalendarDayButton.h */,
+				5B18D677207C7E0F00DBC12F /* CLCalendarDayButton.m */,
 				5B18D670207B130400DBC12F /* UIView+CLSetRect.h */,
 				5B18D671207B130400DBC12F /* UIView+CLSetRect.m */,
 				5B18D635207B090300DBC12F /* Main.storyboard */,
@@ -249,6 +254,7 @@
 				5B18D634207B090300DBC12F /* ViewController.m in Sources */,
 				5B18D672207B130500DBC12F /* UIView+CLSetRect.m in Sources */,
 				5B18D66C207B0DD600DBC12F /* CLCalendarDayView.m in Sources */,
+				5B18D678207C7E0F00DBC12F /* CLCalendarDayButton.m in Sources */,
 				5B18D66F207B0F6100DBC12F /* CLCalendarWeekView.m in Sources */,
 				5B18D63F207B090300DBC12F /* main.m in Sources */,
 				5B18D631207B090300DBC12F /* AppDelegate.m in Sources */,
